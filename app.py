@@ -8,12 +8,14 @@ from bson.json_util import dumps, CANONICAL_JSON_OPTIONS
 import re
 from dotenv import load_dotenv, find_dotenv
 import random
+from flask_cors import CORS
 
 load_dotenv(find_dotenv())
 
 
 def create_app():
     app = Flask(__name__)
+    CORS(app)
     database = os.environ.get('DATABASE')
     user = os.environ.get('USER')
     password = os.environ.get('PASSWORD')
