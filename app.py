@@ -28,6 +28,15 @@ def create_app():
 
     @app.route("/verify-otp/", methods=["POST"])
     def verify_otp():
+        '''
+        This function is used to verify the OTP sent to the user's mobile number.
+
+        requires raw json data in the form of:
+        {
+            "otp": "123456"
+            "contact_number": "1234567890"
+        }
+        '''
         data = json.loads(request.data)
         contact_number = data["contact_number"]
         otp = data["otp"]
@@ -53,6 +62,12 @@ def create_app():
         return jsonify({"status": "failure", "message": message}), 200
 
     def verify_otp_with_database(otp, otpDB, timestamp):
+        '''
+        This function is used to verify the OTP
+        @param otp: OTP displayed to the user
+        @param otpDB: OTP stored in the database
+        @param timestamp: timestamp of the OTP generation
+        '''
         if otp == otpDB:
             if (datetime.datetime.now() - timestamp).total_seconds() < 300:
                 return True
@@ -86,6 +101,10 @@ def create_app():
 
     @app.route("/update-parking-lot", methods=["POST"])
     def update_parking_lot():
+        '''
+        This function is used to update the parking lot status.
+        requires slot_number in the request arguments
+        '''
         slot_number = request.args.get("slot_number")
         try:
             slot_number = int(slot_number)
@@ -99,6 +118,10 @@ def create_app():
 
     @app.route("/get-parking-lot/", methods=["GET"])
     def get_parking_lot():
+        '''
+        This function is used to get the parking lot status.
+        @return: json data of the parking lot status
+        '''
         slots = parking_lot_collection.find({}, {"_id": False})
         return jsonify({"status": "success", "slots": list(slots)}), 200
 
