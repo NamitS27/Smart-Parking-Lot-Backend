@@ -72,7 +72,7 @@ def create_app():
         @param timestamp: timestamp of the OTP generation
         '''
         if otp == otpDB:
-            if (datetime.datetime.now() - timestamp).total_seconds() < 300:
+            if (datetime.datetime.now() - timestamp).total_seconds() < 60:
                 return True
         return False
 
@@ -141,6 +141,15 @@ def create_app():
 
     def generate_random_otp():
         return random.randint(100000, 999999)
+
+    @app.route("/fetch-otp-status/", methods=["GET"])
+    @cross_origin()
+    def fetch_otp_details():
+        response = otp_collection.find_one(
+            {}, {"otp": 1, "generatedTimestamp": 1, "_id": 0})
+        if not response:
+            return jsonify({"status": "success"}), 200
+        return jsonify({"status": "failure"}), 200
 
     return app
 
