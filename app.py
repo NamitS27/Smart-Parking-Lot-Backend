@@ -15,7 +15,7 @@ load_dotenv(find_dotenv())
 
 def create_app():
     app = Flask(__name__)
-    cors = CORS(app, resources={r"/*": {"origins": "*"}})
+    CORS(app, resources={r"/*": {"origins": "*"}})
     database = os.environ.get('DATABASE')
     user = os.environ.get('USER')
     password = os.environ.get('PASSWORD')
@@ -29,7 +29,7 @@ def create_app():
         print(e)
 
     @app.route("/verify-otp/", methods=["POST"])
-    @cross_origin()
+    # @cross_origin()
     def verify_otp():
         '''
         This function is used to verify the OTP sent to the user's mobile number.
@@ -102,8 +102,8 @@ def create_app():
         return jsonify({'status': 'success'}), 200
     """
 
-    @app.route("/update-parking-lot", methods=["POST"])
-    @cross_origin()
+    @app.route("/update-parking-lot/", methods=["POST"])
+    # @cross_origin()
     def update_parking_lot():
         '''
         This function is used to update the parking lot status.
@@ -121,7 +121,7 @@ def create_app():
         return jsonify({"status": "success", "message": "Parking lot updated"}), 200
 
     @app.route("/get-parking-lot/", methods=["GET"])
-    @cross_origin()
+    # @cross_origin()
     def get_parking_lot():
         '''
         This function is used to get the parking lot status.
@@ -131,7 +131,7 @@ def create_app():
         return jsonify({"status": "success", "slots": list(slots)}), 200
 
     @app.route("/generate-otp/", methods=["GET"])
-    @cross_origin()
+    # @cross_origin()
     def generate_otp():
         otp = generate_random_otp()
         timestamp = datetime.datetime.now()
@@ -143,7 +143,7 @@ def create_app():
         return random.randint(100000, 999999)
 
     @app.route("/fetch-otp-status/", methods=["GET"])
-    @cross_origin()
+    # @cross_origin()
     def fetch_otp_details():
         response = otp_collection.find_one(
             {}, {"otp": 1, "generatedTimestamp": 1, "_id": 0})
