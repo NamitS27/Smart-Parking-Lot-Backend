@@ -127,7 +127,7 @@ def create_app():
         This function is used to get the parking lot status.
         @return: json data of the parking lot status
         '''
-        slots = parking_lot_collection.find({}, {"_id": False})
+        slots = parking_lot_collection.find({}, {"_id": False}).sort("slot")
         return jsonify({"status": "success", "slots": list(slots)}), 200
 
     @app.route("/generate-otp/", methods=["GET"])
