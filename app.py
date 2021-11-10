@@ -61,7 +61,7 @@ def create_app():
             otp_collection.delete_one({"otp": otp_to_verify})
             return jsonify({"status": "success"}), 200
 
-        message = "Invalid OTP / OTP Expired" if otp != fixed_OTP else "No slots available"
+        message = "Invalid OTP / OTP Expired" if otp != otp_to_verify else "No slots available"
         return jsonify({"status": "failure", "message": message}), 200
 
     def verify_otp_with_database(otp, otpDB, timestamp):
