@@ -43,6 +43,7 @@ def create_app():
         data = json.loads(request.data)
         contact_number = data["contact_number"]
         otp = data["otp"]
+        otp = int(otp)
         otpDB = None
         # if pyotp.TOTP(contact_number).verify(otp):
         #     return jsonify({'status':'success'}), 200
@@ -52,6 +53,7 @@ def create_app():
             otpDB = otp_collection.find_one(
                 {}, {"otp": 1, "generatedTimestamp": 1, "_id": 0})
             otp_to_verify = otpDB["otp"]
+            otp_to_verify = int(otp_to_verify)
             timestamp = otpDB["generatedTimestamp"]
         except Exception as e:
             print(e)
