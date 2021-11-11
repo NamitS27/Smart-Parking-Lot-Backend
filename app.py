@@ -111,9 +111,10 @@ def create_app():
         '''
         slot_number = request.args.get("slot_number")
         stat = request.args.get("status")
-        status = True if stat == 1 else False
+        status = True if int(stat) == 1 else False
         try:
             slot_number = int(slot_number)
+            # print(stat, status)
             updated_result = db.parking_lot.update_one(
                 {"slot": slot_number}, {"$set": {"isPresent": status}})
             # if updated_result.modified_count < 1:
