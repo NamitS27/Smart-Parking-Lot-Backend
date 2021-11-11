@@ -116,8 +116,8 @@ def create_app():
             slot_number = int(slot_number)
             updated_result = db.parking_lot.update_one(
                 {"slot": slot_number}, {"$set": {"isPresent": status}})
-            if updated_result.modified_count < 1:
-                return jsonify({"status": "success", "message": "Car is already present"}), 200
+            # if updated_result.modified_count < 1:
+            # return jsonify({"status": "success", "message": "Car is already present"}), 200
         except:
             return jsonify({"status": "Update Failed"}), 200
         return jsonify({"status": "success", "message": "Parking lot updated"}), 200
